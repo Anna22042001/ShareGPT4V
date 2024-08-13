@@ -12,7 +12,7 @@ CHUNKS=${#GPULIST[@]}
 
 CKPT=${1-"share4v-7b"}
 SPLIT="share4v_gqa_testdev_balanced"
-GQADIR="./playground/data/eval/gqa/data"
+GQADIR="./playground/data/eval/gqa/"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python -m share4v.eval.model_vqa_loader \
