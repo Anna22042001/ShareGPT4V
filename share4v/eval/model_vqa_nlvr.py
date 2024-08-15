@@ -40,7 +40,7 @@ def eval_model(args):
     ans_file = open(answers_file, "w")
     for line in tqdm(questions):
         idx = line["question_id"]
-        image_file = line["images"]
+        image_files = line["images"]
         qs = line["text"]
         cur_prompt = qs
         # if model.config.mm_use_im_start_end:
