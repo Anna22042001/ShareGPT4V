@@ -59,7 +59,7 @@ def eval_model(args):
         for image_file in image_files:
             image = Image.open(os.path.join(args.image_folder, image_file)).convert('RGB')
             lst_images.append(image)
-        image_tensor = process_images(lst_images, image_processor, model.config)
+        image_tensor = image_processor.preprocess(lst_images, return_tensors='pt')['pixel_values']
 
         stop_str = conv.sep if conv.sep_style != SeparatorStyle.TWO else conv.sep2
         keywords = [stop_str]
