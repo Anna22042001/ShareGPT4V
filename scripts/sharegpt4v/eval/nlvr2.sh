@@ -39,6 +39,3 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
 done
 
 python scripts/convert_nlvr2_for_eval.py --src $output_file --dst $NLVR2DIR/testdev_balanced_predictions.json
-
-cd $GQADIR
-python eval/eval.py --tier testdev_balanced
