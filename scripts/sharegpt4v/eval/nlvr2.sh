@@ -18,7 +18,7 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python -m share4v.eval.model_vqa_nlvr \
         --model-path Lin-Chen/ShareGPT4V-7B \
         --question-file ./playground/data/eval/nlvr2/$SPLIT.jsonl \
-        --image-folder ./playground/data/eval/nlvr2/images \
+        --image-folder ./playground/data/eval/nlvr2/ \
         --answers-file ./playground/data/eval/nlvr2/answers/$SPLIT/$CKPT/${CHUNKS}_${IDX}.jsonl \
         --num-chunks $CHUNKS \
         --chunk-idx $IDX \
