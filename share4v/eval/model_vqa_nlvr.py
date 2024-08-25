@@ -40,7 +40,7 @@ def eval_model(args):
     ans_file = open(answers_file, "w")
     for line in tqdm(questions):
         idx = line["question_id"]
-        image_files = line["images"]
+        image_files = line["image"]
         qs = line["text"]
         cur_prompt = qs
         # if model.config.mm_use_im_start_end:
@@ -55,11 +55,8 @@ def eval_model(args):
 
         input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).cuda()
 
-        lst_images = []
-        for image_file in image_files:
-            image = Image.open(os.path.join(args.image_folder, image_file)).convert('RGB')
-            lst_images.append(image)
-        image_tensor = image_processor.preprocess(lst_images, return_tensors='pt')['pixel_values']
+        image = Image.open(os.path.join(args.image_folder, image_file))
+        image_tensor = image_processor.preprocess(image, return_tensors='pt')['pixel_values'][0]
 
         stop_str = conv.sep if conv.sep_style != SeparatorStyle.TWO else conv.sep2
         keywords = [stop_str]
@@ -68,7 +65,7 @@ def eval_model(args):
         with torch.inference_mode():
             output_ids = model.generate(
                 input_ids,
-                images=image_tensor.half().cuda(),
+                images=image_tensor.unsqueeze(0).half().cuda(),
                 do_sample=True if args.temperature > 0 else False,
                 temperature=args.temperature,
                 top_p=args.top_p,
